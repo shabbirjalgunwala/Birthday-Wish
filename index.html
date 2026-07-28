@@ -68,6 +68,13 @@
             margin: 30px 0;
             z-index: 2;
             filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         .question-text {
@@ -354,8 +361,8 @@
         <div id="screen-1">
             <h1 class="title" style="margin-top: 20px;">Happy Birthday,<br>Arwa</h1>
             
-            <!-- Highly reliable GitHub image link -->
-            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Bear.png" alt="Cute Bear" class="hero-image">
+            <!-- Beautiful 3D Animated Gift Box -->
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Wrapped%20Gift.png" alt="Birthday Gift" class="hero-image">
             
             <p class="question-text">Are you excited for what's next?</p>
             <button class="btn-yes" onclick="goToScreen2()">Yes</button>
