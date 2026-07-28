@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Arwa!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lora:ital,wght@1,500&family=Caveat:wght@600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fce4ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Lora', serif;
+            overflow: hidden;
+        }
+
+        .mobile-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            background: linear-gradient(180deg, #ffedee 0%, #ffcce0 100%);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 450px) {
+            .mobile-wrapper {
+                border-radius: 40px;
+                height: 850px;
+            }
+        }
+
+        /* --- GLOBAL TEXT --- */
+        .title {
+            font-family: 'Dancing Script', cursive;
+            color: #881a30;
+            font-size: 42px;
+            line-height: 1.2;
+            z-index: 2;
+        }
+
+        /* ==================== SCREEN 1 ==================== */
+        #screen-1 {
+            width: 100%;
+            height: 100%;
+            padding: 60px 20px 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .hero-image {
+            width: 85%;
+            max-width: 300px;
+            margin: 30px 0;
+            z-index: 2;
+            border-radius: 20px;
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+        }
+
+        .question-text {
+            color: #881a30;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            z-index: 2;
+        }
+
+        .btn-yes {
+            background: linear-gradient(90deg, #c2185b, #e91e63, #c2185b);
+            background-size: 200% auto;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 16px 60px;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: 'Lora', serif;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(194, 24, 91, 0.4);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .btn-yes:hover { transform: scale(1.05); }
+
+        /* ==================== SCREEN 2 ==================== */
+        #screen-2 {
+            width: 100%;
+            height: 100%;
+            padding: 60px 20px 40px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .blow-title {
+            margin-bottom: 60px;
+        }
+
+        .mic-instruction {
+            color: #c2185b;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 60px;
+            z-index: 2;
+        }
+
+        /* --- PURE CSS CAKE & CANDLE --- */
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            z-index: 2;
+        }
+
+        .plate {
+            position: absolute;
+            bottom: -15px;
+            left: -20px;
+            width: 240px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .cake-base {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70px;
+            background: #5d4037;
+            border-radius: 10px 10px 20px 20px;
+        }
+
+        .frosting {
+            position: absolute;
+            top: -20px;
+            width: 100%;
+            height: 40px;
+            background: #fff9c4;
+            border-radius: 20px;
+        }
+
+        .candle {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 40px;
+            background: #d32f2f;
+            border-radius: 3px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 25px;
+            background: #ffb300;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #ffb300, 0 0 30px #ff8f00;
+            animation: flicker 0.1s infinite alternate;
+            cursor: pointer;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
+
+        .flame.out { display: none; }
+
+        .confetti {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            z-index: 10;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+
+
+        /* ==================== SCREEN 3 & 4 (Envelope & Letter) ==================== */
+        #screen-3 {
+            width: 100%;
+            height: 100%;
+            padding: 60px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Pure CSS Envelope */
+        .envelope-wrapper {
+            position: relative;
+            margin-top: 100px;
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.3s;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope {
+            position: relative;
+            width: 260px;
+            height: 180px;
+            background: #fdfbf7;
+            border: 2px solid #d4af37; /* Gold trim */
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Envelope Flaps */
+        .flap-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-top: 100px solid #f8bbd0; /* Pink flap */
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 4;
+        }
+
+        .flap-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 90px solid transparent;
+            border-bottom: 90px solid transparent;
+            border-left: 130px solid #fffdfa;
+            z-index: 3;
+        }
+
+        .flap-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 90px solid transparent;
+            border-bottom: 90px solid transparent;
+            border-right: 130px solid #fffdfa;
+            z-index: 3;
+        }
+
+        .flap-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-bottom: 100px solid #f5f0e6;
+            z-index: 3;
+        }
+
+        /* The Letter inside */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            width: 240px;
+            height: 160px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.8s ease-in-out;
+            z-index: 2; /* Starts behind the top flap */
+            
+            /* Letter styling */
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Animation Classes */
+        .open-envelope .flap-top {
+            transform: rotateX(180deg);
+            z-index: 1; /* Move behind letter */
+        }
+
+        .open-envelope .letter {
+            transform: translateY(-250px) scale(1.3);
+            height: auto;
+            min-height: 350px;
+            z-index: 10;
+            border: 1px solid #fae8ed;
+        }
+
+        .letter-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.8s; /* Fades in after letter slides up */
+        }
+
+        .open-envelope .letter-content {
+            opacity: 1;
+        }
+        
+        .letter-content p {
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-wrapper" id="birthday-card">
+        
+        <!-- ==================== SCREEN 1 ==================== -->
+        <div id="screen-1">
+            <h1 class="title" style="margin-top: 20px;">Happy Birthday,<br>Arwa</h1>
+            <img src="https://media.tenor.com/b9UOhbXG1lQAAAAi/milk-and-mocha-bear-couple.gif" alt="Cute Bears" class="hero-image">
+            <p class="question-text">Are you excited for what's next?</p>
+            <button class="btn-yes" onclick="goToScreen2()">Yes</button>
+        </div>
+
+        <!-- ==================== SCREEN 2 ==================== -->
+        <div id="screen-2">
+            <h1 class="title blow-title" id="celebration-text">Blow the candle</h1>
+            
+            <div class="cake-container">
+                <div class="plate"></div>
+                <div class="cake-base"></div>
+                <div class="frosting"></div>
+                <div class="candle">
+                    <div class="flame" id="flame" onclick="triggerCelebration()"></div>
+                </div>
+            </div>
+            <p class="mic-instruction" id="mic-instruction">🎤 Blow into the mic</p>
+        </div>
+
+        <!-- ==================== SCREEN 3 & 4 (Envelope) ==================== -->
+        <div id="screen-3">
+            <h1 class="title" style="font-size: 32px; margin-top: 40px;">A Message From My Heart</h1>
+            
+            <div class="envelope-wrapper" onclick="openEnvelope(this)">
+                <div class="envelope">
+                    <div class="flap-top"></div>
+                    <div class="flap-left"></div>
+                    <div class="flap-right"></div>
+                    <div class="flap-bottom"></div>
+                    
+                    <!-- The Letter -->
+                    <div class="letter">
+                        <div class="letter-content">
+                            <p style="font-size: 26px;">Dear Arwa,</p>
+                            <p>Happy Birthday to someone truly special! 🎂</p>
+                            <p>You are Always There, Sweet Soul, Super Loyal, and I'm so glad to have you in my life.</p>
+                            <p>Wishing you the best day ever!</p>
+                            <p style="text-align: right; margin-top: 30px;">❤️</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; color: #881a30; font-family: 'Lora', serif; font-size: 14px;" id="tap-hint">Tap envelope to open</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        let micStream = null;
+        let isBlownOut = false;
+
+        // --- Screen 1 to Screen 2 ---
+        function goToScreen2() {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            screen1.style.opacity = '0';
+            setTimeout(() => {
+                screen1.style.display = 'none';
+                screen2.style.display = 'flex';
+                setTimeout(() => { screen2.style.opacity = '1'; }, 50);
+                setupMicrophone();
+            }, 500);
+        }
+
+        // --- Microphone Logic ---
+        async function setupMicrophone() {
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(micStream);
+                
+                microphone.connect(analyser);
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                function detectBlow() {
+                    if (isBlownOut) return;
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < bufferLength; i++) sum += dataArray[i];
+                    let volume = sum / bufferLength;
+                    if (volume > 70) { 
+                        triggerCelebration();
+                    } else {
+                        requestAnimationFrame(detectBlow);
+                    }
+                }
+                detectBlow();
+            } catch (err) {
+                console.warn("Mic denied");
+                document.getElementById('mic-instruction').innerText = "Tap the flame to blow it out! 👆";
+            }
+        }
+
+        // --- Celebration to Screen 3 Transition ---
+        function triggerCelebration() {
+            if (isBlownOut) return;
+            isBlownOut = true;
+
+            document.getElementById('flame').classList.add('out');
+            document.getElementById('celebration-text').innerText = "Happy Birthday!! 🎉";
+            document.getElementById('mic-instruction').style.display = "none";
+            if (micStream) micStream.getTracks().forEach(track => track.stop());
+
+            startConfetti();
+
+            // Transition to Envelope Screen after 4 seconds
+            setTimeout(() => {
+                const screen2 = document.getElementById('screen-2');
+                const screen3 = document.getElementById('screen-3');
+                
+                screen2.style.opacity = '0';
+                setTimeout(() => {
+                    screen2.style.display = 'none';
+                    screen3.style.display = 'flex';
+                    setTimeout(() => { screen3.style.opacity = '1'; }, 50);
+                }, 500);
+            }, 4000);
+        }
+
+        // --- Confetti ---
+        function startConfetti() {
+            const colors = ['#e91e63', '#00bcd4', '#ffeb3b', '#4caf50', '#ff9800'];
+            const container = document.getElementById('birthday-card');
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    container.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // --- Open Envelope ---
+        function openEnvelope(element) {
+            element.classList.add('open-envelope');
+            document.getElementById('tap-hint').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
