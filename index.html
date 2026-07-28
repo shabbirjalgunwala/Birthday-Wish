@@ -114,7 +114,7 @@
         }
 
         .envelope-wrapper {
-            position: relative; margin-top: 150px; cursor: pointer; z-index: 5; transition: transform 0.3s;
+            position: relative; margin-top: 130px; cursor: pointer; z-index: 5; transition: transform 0.3s;
         }
         .envelope-wrapper:hover { transform: scale(1.05); }
         .envelope {
@@ -127,28 +127,33 @@
         .flap-right { position: absolute; top: 0; right: 0; width: 0; height: 0; border-top: 90px solid transparent; border-bottom: 90px solid transparent; border-right: 140px solid #fffdfa; z-index: 3; }
         .flap-bottom { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 100px solid #f5f0e6; z-index: 3; }
 
-        /* --- THE NEW LETTER ANIMATION --- */
+        /* --- THE FIXED LETTER ANIMATION --- */
         .letter {
             position: absolute; 
             bottom: 5px; 
             left: 10px; 
             width: 260px; 
-            height: 160px; /* Hidden inside envelope size */
+            height: 160px; 
             background: #fff; 
             border-radius: 8px; 
-            padding: 20px 15px; 
+            padding: 25px 20px; 
             box-sizing: border-box; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
             z-index: 2;
             font-family: 'Caveat', cursive; 
-            font-size: 18px; 
+            font-size: 17px; 
             color: #333; 
             text-align: center;
+            overflow-y: auto; /* Magic fix: makes letter scrollable if screen is tiny! */
+            scrollbar-width: thin;
         }
+        
+        /* Cute pink scrollbar */
+        .letter::-webkit-scrollbar { width: 5px; }
+        .letter::-webkit-scrollbar-thumb { background-color: #f8bbd0; border-radius: 5px; }
 
         .open-envelope .flap-top { transform: rotateX(180deg); z-index: 1; }
         
-        /* Apply the magic centering animation */
         .open-envelope .letter { 
             animation: extractAndCenter 1.5s forwards; 
         }
@@ -162,20 +167,20 @@
             15% {
                 transform: translateY(0) scale(1);
                 z-index: 2;
-                height: 160px; /* Waits briefly for flap to open */
+                height: 160px; 
             }
             50% {
-                transform: translateY(-200px) scale(1); /* Slides UP to exit envelope */
+                transform: translateY(-220px) scale(1); /* Slide out of envelope */
                 z-index: 2;
                 height: 160px;
             }
             51% {
-                z-index: 10; /* Pops to the front layer */
+                z-index: 10; 
             }
             100% {
-                transform: translateY(145px) scale(1.1); /* Drops DOWN dead-center over the envelope */
+                transform: translateY(110px) scale(1.05); /* Dropped back down to center */
                 z-index: 10;
-                height: 480px; /* Expands paper for reading */
+                height: 500px; /* Taller paper */
                 box-shadow: 0 15px 40px rgba(0,0,0,0.25);
                 border: 1px solid #fae8ed;
             }
@@ -185,11 +190,10 @@
         .cursor { display: inline-block; width: 2px; background-color: #333; animation: blink 0.7s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Moved the Continue button neatly to the bottom so it doesn't hit the letter */
         #continue-btn {
             display: none; 
             position: absolute; 
-            bottom: 30px; 
+            bottom: 20px; 
             padding: 10px 25px; 
             background: #d81b60; 
             color: white; 
@@ -380,10 +384,17 @@
             const messageArray = [...rawMessage];
             let i = 0;
 
+            // Scroll to bottom dynamically while typing
+            const letterBox = document.querySelector('.letter');
+
             function typeChar() {
                 if (i < messageArray.length) {
                     textElement.innerHTML += messageArray[i];
                     i++;
+                    
+                    // Keeps the scroll fixed to the bottom as new lines type!
+                    letterBox.scrollTop = letterBox.scrollHeight;
+                    
                     setTimeout(typeChar, 30); 
                 } else {
                     cursor.style.display = 'none';
