@@ -111,10 +111,11 @@
             display: none;
             opacity: 0;
             padding-top: 40px;
+            position: relative; /* Keep continue button contained safely */
         }
 
         .envelope-wrapper {
-            position: relative; margin-top: 130px; cursor: pointer; z-index: 5; transition: transform 0.3s;
+            position: relative; margin-top: 100px; cursor: pointer; z-index: 5; transition: transform 0.3s;
         }
         .envelope-wrapper:hover { transform: scale(1.05); }
         .envelope {
@@ -130,10 +131,11 @@
         /* --- THE FIXED LETTER ANIMATION --- */
         .letter {
             position: absolute; 
-            bottom: 5px; 
-            left: 10px; 
+            top: 15px; /* Fixed anchor top so it grows down safely */
+            left: 50%; 
+            transform: translateX(-50%); /* Keeps it perfectly centered */
             width: 260px; 
-            height: 160px; 
+            height: 150px; 
             background: #fff; 
             border-radius: 8px; 
             padding: 25px 20px; 
@@ -141,14 +143,13 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
             z-index: 2;
             font-family: 'Caveat', cursive; 
-            font-size: 17px; 
+            font-size: 19px; /* slightly larger */
             color: #333; 
             text-align: center;
-            overflow-y: auto; /* Magic fix: makes letter scrollable if screen is tiny! */
+            overflow-y: auto; 
             scrollbar-width: thin;
         }
         
-        /* Cute pink scrollbar */
         .letter::-webkit-scrollbar { width: 5px; }
         .letter::-webkit-scrollbar-thumb { background-color: #f8bbd0; border-radius: 5px; }
 
@@ -160,51 +161,58 @@
 
         @keyframes extractAndCenter {
             0% {
-                transform: translateY(0) scale(1);
+                transform: translate(-50%, 0);
                 z-index: 2;
-                height: 160px;
+                height: 150px;
+                width: 260px;
             }
             15% {
-                transform: translateY(0) scale(1);
+                transform: translate(-50%, 0);
                 z-index: 2;
-                height: 160px; 
+                height: 150px;
+                width: 260px; 
             }
             50% {
-                transform: translateY(-220px) scale(1); /* Slide out of envelope */
+                transform: translate(-50%, -200px); /* Slide OUT */
                 z-index: 2;
-                height: 160px;
+                height: 150px;
+                width: 260px;
             }
             51% {
                 z-index: 10; 
             }
             100% {
-                transform: translateY(110px) scale(1.05); /* Dropped back down to center */
+                transform: translate(-50%, -40px); /* Drop beautifully over the envelope */
                 z-index: 10;
-                height: 500px; /* Taller paper */
+                height: 400px; /* Safe height */
+                width: 340px; /* MUCH WIDER! */
                 box-shadow: 0 15px 40px rgba(0,0,0,0.25);
                 border: 1px solid #fae8ed;
             }
         }
         
-        #typed-text { line-height: 1.4; white-space: pre-wrap; }
+        #typed-text { line-height: 1.5; white-space: pre-wrap; }
         .cursor { display: inline-block; width: 2px; background-color: #333; animation: blink 0.7s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* The continue button is now perfectly centered at the absolute bottom */
         #continue-btn {
             display: none; 
             position: absolute; 
-            bottom: 20px; 
-            padding: 10px 25px; 
+            bottom: 40px; 
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 30px; 
             background: #d81b60; 
             color: white; 
             border: none; 
-            border-radius: 20px; 
+            border-radius: 25px; 
             font-family: 'Lora', serif; 
             font-size: 16px; 
             font-weight: bold; 
             cursor: pointer; 
             box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4); 
-            z-index: 20; 
+            z-index: 50; /* Above everything else */
             animation: fadeIn 1s ease forwards;
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -384,7 +392,6 @@
             const messageArray = [...rawMessage];
             let i = 0;
 
-            // Scroll to bottom dynamically while typing
             const letterBox = document.querySelector('.letter');
 
             function typeChar() {
@@ -392,7 +399,7 @@
                     textElement.innerHTML += messageArray[i];
                     i++;
                     
-                    // Keeps the scroll fixed to the bottom as new lines type!
+                    // Auto-scrolls gracefully as text expands
                     letterBox.scrollTop = letterBox.scrollHeight;
                     
                     setTimeout(typeChar, 30); 
