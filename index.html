@@ -50,7 +50,6 @@
             z-index: 2;
         }
 
-        /* All screens except the full-screen photo gallery get padding */
         .screen-padded {
             width: 100%;
             height: 100%;
@@ -63,15 +62,10 @@
         }
 
         /* ==================== SCREEN 1 ==================== */
-        #screen-1 {
-            opacity: 1;
-        }
+        #screen-1 { opacity: 1; }
 
         .hero-image {
-            width: 70%;
-            max-width: 250px;
-            margin: 30px 0;
-            z-index: 2;
+            width: 70%; max-width: 250px; margin: 30px 0; z-index: 2;
             filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
             animation: float 3s ease-in-out infinite;
         }
@@ -83,56 +77,22 @@
         }
 
         .question-text {
-            color: #881a30;
-            font-size: 20px;
-            font-weight: 500;
-            margin-top: 10px;
-            margin-bottom: 40px;
-            z-index: 2;
+            color: #881a30; font-size: 20px; font-weight: 500; margin-top: 10px; margin-bottom: 40px; z-index: 2;
         }
 
         .btn-yes {
             background: linear-gradient(90deg, #c2185b, #e91e63, #c2185b);
-            background-size: 200% auto;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 16px 60px;
-            font-size: 22px;
-            font-weight: bold;
-            font-family: 'Lora', serif;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(194, 24, 91, 0.4);
-            transition: all 0.3s ease;
-            z-index: 2;
+            background-size: 200% auto; color: white; border: none; border-radius: 30px; padding: 16px 60px; font-size: 22px; font-weight: bold; font-family: 'Lora', serif; cursor: pointer; box-shadow: 0 8px 20px rgba(194, 24, 91, 0.4); transition: all 0.3s ease; z-index: 2;
         }
-
         .btn-yes:hover { transform: scale(1.05); }
 
         /* ==================== SCREEN 2 ==================== */
-        #screen-2 {
-            display: none;
-            justify-content: center;
-            opacity: 0;
-        }
-
+        #screen-2 { display: none; justify-content: center; opacity: 0; }
         .blow-title { margin-bottom: 60px; }
-
-        .mic-instruction {
-            color: #c2185b;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 60px;
-            z-index: 2;
-        }
+        .mic-instruction { color: #c2185b; font-size: 18px; font-weight: bold; margin-top: 60px; z-index: 2; }
 
         /* CSS CAKE & CANDLE */
-        .cake-container {
-            position: relative;
-            width: 200px;
-            height: 100px;
-            z-index: 2;
-        }
+        .cake-container { position: relative; width: 200px; height: 100px; z-index: 2; }
         .plate { position: absolute; bottom: -15px; left: -20px; width: 240px; height: 40px; background: #e0e0e0; border-radius: 50%; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
         .cake-base { position: absolute; bottom: 0; width: 100%; height: 70px; background: #5d4037; border-radius: 10px 10px 20px 20px; }
         .frosting { position: absolute; top: -20px; width: 100%; height: 40px; background: #fff9c4; border-radius: 20px; }
@@ -146,11 +106,11 @@
         .confetti { position: absolute; top: -20px; width: 10px; height: 10px; z-index: 10; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
 
-        /* ==================== SCREEN 3 (Envelope) ==================== */
+        /* ==================== SCREEN 3 (Envelope & Letter) ==================== */
         #screen-3 {
             display: none;
             opacity: 0;
-            padding-top: 40px; /* Adjusting padding for smaller screens */
+            padding-top: 40px;
         }
 
         .envelope-wrapper {
@@ -167,59 +127,98 @@
         .flap-right { position: absolute; top: 0; right: 0; width: 0; height: 0; border-top: 90px solid transparent; border-bottom: 90px solid transparent; border-right: 140px solid #fffdfa; z-index: 3; }
         .flap-bottom { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 100px solid #f5f0e6; z-index: 3; }
 
+        /* --- THE NEW LETTER ANIMATION --- */
         .letter {
-            position: absolute; bottom: 5px; left: 10px; width: 260px; height: 160px; background: #fff; border-radius: 8px; padding: 20px 15px; box-sizing: border-box; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.8s ease-in-out; z-index: 2;
-            font-family: 'Caveat', cursive; font-size: 18px; color: #333; text-align: center;
+            position: absolute; 
+            bottom: 5px; 
+            left: 10px; 
+            width: 260px; 
+            height: 160px; /* Hidden inside envelope size */
+            background: #fff; 
+            border-radius: 8px; 
+            padding: 20px 15px; 
+            box-sizing: border-box; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            z-index: 2;
+            font-family: 'Caveat', cursive; 
+            font-size: 18px; 
+            color: #333; 
+            text-align: center;
         }
+
         .open-envelope .flap-top { transform: rotateX(180deg); z-index: 1; }
-        .open-envelope .letter { transform: translateY(-330px) scale(1.1); height: auto; min-height: 480px; z-index: 10; border: 1px solid #fae8ed; }
+        
+        /* Apply the magic centering animation */
+        .open-envelope .letter { 
+            animation: extractAndCenter 1.5s forwards; 
+        }
+
+        @keyframes extractAndCenter {
+            0% {
+                transform: translateY(0) scale(1);
+                z-index: 2;
+                height: 160px;
+            }
+            15% {
+                transform: translateY(0) scale(1);
+                z-index: 2;
+                height: 160px; /* Waits briefly for flap to open */
+            }
+            50% {
+                transform: translateY(-200px) scale(1); /* Slides UP to exit envelope */
+                z-index: 2;
+                height: 160px;
+            }
+            51% {
+                z-index: 10; /* Pops to the front layer */
+            }
+            100% {
+                transform: translateY(145px) scale(1.1); /* Drops DOWN dead-center over the envelope */
+                z-index: 10;
+                height: 480px; /* Expands paper for reading */
+                box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+                border: 1px solid #fae8ed;
+            }
+        }
         
         #typed-text { line-height: 1.4; white-space: pre-wrap; }
         .cursor { display: inline-block; width: 2px; background-color: #333; animation: blink 0.7s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* Moved the Continue button neatly to the bottom so it doesn't hit the letter */
         #continue-btn {
-            display: none; margin-top: 180px; padding: 10px 25px; background: #d81b60; color: white; border: none; border-radius: 20px; font-family: 'Lora', serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4); z-index: 20; animation: fadeIn 1s ease forwards;
+            display: none; 
+            position: absolute; 
+            bottom: 30px; 
+            padding: 10px 25px; 
+            background: #d81b60; 
+            color: white; 
+            border: none; 
+            border-radius: 20px; 
+            font-family: 'Lora', serif; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4); 
+            z-index: 20; 
+            animation: fadeIn 1s ease forwards;
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* ==================== SCREEN 4 (One Last Thing) ==================== */
-        #screen-4 {
-            display: none;
-            opacity: 0;
-            justify-content: center;
-        }
+        #screen-4 { display: none; opacity: 0; justify-content: center; }
 
         /* ==================== SCREEN 5 (Gallery) ==================== */
         #screen-5 {
-            display: none;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background: #000;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
+            display: none; opacity: 0; width: 100%; height: 100%; position: relative; background: #000; cursor: pointer; transition: opacity 0.5s ease;
         }
         
         #gallery-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures portrait photos perfectly fill screen */
-            border-radius: inherit; /* Keeps the rounded corners on desktop */
+            width: 100%; height: 100%; object-fit: cover; border-radius: inherit;
         }
 
         .gallery-hint {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-family: 'Lora', serif;
-            font-size: 16px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
-            pointer-events: none;
-            animation: pulseHint 2s infinite;
+            position: absolute; bottom: 30px; width: 100%; text-align: center; color: white; font-family: 'Lora', serif; font-size: 16px; text-shadow: 1px 1px 5px rgba(0,0,0,0.8); pointer-events: none; animation: pulseHint 2s infinite;
         }
         @keyframes pulseHint { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
 
@@ -277,7 +276,6 @@
             <h1 class="title" style="font-size: 38px; color: #d81b60; margin-bottom: 10px;">One Last Thing...</h1>
             <p class="question-text" style="color: #d81b60;">Tap the gift</p>
             
-            <!-- Tap to open gallery -->
             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Wrapped%20Gift.png" alt="Gift" class="hero-image" style="width: 140px; cursor: pointer; margin-top: 50px;" onclick="goToScreen5()">
         </div>
 
@@ -290,7 +288,6 @@
     </div>
 
     <script>
-        // --- Navigation ---
         function transitionScreen(hideId, showId) {
             const hideScreen = document.getElementById(hideId);
             const showScreen = document.getElementById(showId);
@@ -302,7 +299,6 @@
             }, 500);
         }
 
-        // --- Screen 1 to 2 ---
         let micStream = null;
         let isBlownOut = false;
 
@@ -363,7 +359,6 @@
             }
         }
 
-        // --- Envelope & Typewriter ---
         let isEnvelopeOpened = false;
 
         function openEnvelope(element) {
@@ -371,7 +366,9 @@
             isEnvelopeOpened = true;
             element.classList.add('open-envelope');
             document.getElementById('tap-hint').style.display = 'none';
-            setTimeout(startTypewriter, 800);
+            
+            // Wait 1.5s for the beautiful centering animation to finish before typing!
+            setTimeout(startTypewriter, 1500);
         }
 
         function startTypewriter() {
@@ -390,7 +387,6 @@
                     setTimeout(typeChar, 30); 
                 } else {
                     cursor.style.display = 'none';
-                    // Show continue button when typing is done
                     setTimeout(() => {
                         document.getElementById('continue-btn').style.display = 'block';
                     }, 500);
@@ -399,38 +395,30 @@
             typeChar();
         }
 
-        // --- Screen 4 Transition ---
         function goToScreen4() {
             transitionScreen('screen-3', 'screen-4');
         }
 
-        // --- PHOTO GALLERY LOGIC (Screen 5) ---
+        // --- Gallery ---
         let currentPhotoIndex = 0;
         
-        // ⬇️⬇️⬇️ REPLACE THESE WITH YOUR OWN PHOTO NAMES ⬇️⬇️⬇️
-        // Just make sure your photos are in the same folder as this HTML file!
+        // Add your real photo filenames here!
         const myPhotos = [
-            "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=500&h=900&fit=crop", // Example Photo 1
-            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&h=900&fit=crop", // Example Photo 2
-            "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=500&h=900&fit=crop"  // Example Photo 3
-            // e.g., "my-photo-1.jpg", 
-            //       "my-photo-2.jpg"
+            "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=500&h=900&fit=crop",
+            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&h=900&fit=crop",
+            "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=500&h=900&fit=crop"
         ];
-        // ⬆️⬆️⬆️ ======================================== ⬆️⬆️⬆️
 
         function goToScreen5() {
-            // Load the first photo right before transitioning
             document.getElementById('gallery-image').src = myPhotos[0];
             transitionScreen('screen-4', 'screen-5');
         }
 
         function nextPhoto() {
             currentPhotoIndex++;
-            // If we reach the end of the list, loop back to the first photo
             if (currentPhotoIndex >= myPhotos.length) {
                 currentPhotoIndex = 0; 
             }
-            // Update the image source
             document.getElementById('gallery-image').src = myPhotos[currentPhotoIndex];
         }
     </script>
